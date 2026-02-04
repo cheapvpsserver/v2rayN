@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v2rayN - Free Network Tool | Supports Windows, macOS, Linux, Android Versions</title>
+    <!-- Website Description -->
+    <meta name="description" content="v2rayN is a powerful free network tool that supports Windows, macOS, Linux, and Android versions, used for network proxy, scientific internet access, and more.">
+    <!-- Website Icon -->
+    <link rel="icon" type="image/x-icon" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/favicon.png">
+    <!-- Import Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+     // 1. Disable right-click menu
+     document.addEventListener('contextmenu', function(e) {
+         e.preventDefault();
+         alert('Right-click menu is disabled');
+     });
+
+     // 2. Disable text selection
+     document.addEventListener('selectstart', function(e) {
+         e.preventDefault();
+     });
+
+     // 3. Disable copy shortcuts
+     document.addEventListener('keydown', function(e) {
+         if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'a')) {
+             e.preventDefault();
+             alert('Copy function is disabled');
+         }
+     });
+
+     // 4. Prevent opening developer tools via F12
+     document.addEventListener('keydown', function(e) {
+         if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+             e.preventDefault();
+             alert('Developer tools are disabled');
+         }
+     });
+ </script>
+    <style>
+    /* Basic Style Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f5f8ff;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Global Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Navigation Bar Style */
+    nav {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #1a1a1a;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .nav-logo-img {
+      width: 200px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 32px;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: #666;
+      font-size: 16px;
+      transition: color 0.3s ease;
+      font-weight: normal;
+    }
+
+    .nav-menu a:hover {
+      color: #4683f4;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    /* Header Style */
+    header {
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .download-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    /* Button Basic Style */
+    .btn {
+      padding: 10px 24px;
+      border-radius: 24px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    /* Button Icon Style */
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .btn-blue {
+      background-color: #4683f4;
+      color: white;
+    }
+
+    .btn-blue:hover {
+      background-color: #3366cc;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: #4683f4;
+      border: 1px solid #4683f4;
+    }
+
+    .btn-outline:hover {
+      background-color: rgba(70, 131, 244, 0.1);
+    }
+
+    /* Main Banner Video Style */
+    .hero-screenshot {
+      width: 1000px;
+      max-width: 100%;
+      height: 600px;
+      margin: 0 auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      background-color: #f0f0f0;
+    }
+    
+    /* Video Container Relative Positioning */
+    .video-container {
+      position: relative;
+      cursor: pointer;
+    }
+    
+    /* Video Overlay */
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+    
+    /* Overlay Text Style */
+    .overlay-text {
+      color: white;
+      font-size: 36px;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Hide Overlay */
+    .video-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Download Modal Style */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 30px;
+      border: none;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: modalFadeIn 0.3s ease;
+      position: relative;
+    }
+
+    /* Modal Animation */
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Close Button */
+    .close-btn {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      position: absolute;
+      top: 15px;
+      right: 20px;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    /* Modal Title */
+    .modal-content h3 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    /* Download Options List */
+    .download-options {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Single Option Style */
+    .option-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .option-item:hover {
+      background-color: #e9ecef;
+    }
+
+    /* Option Name */
+    .option-name {
+      font-size: 16px;
+      color: #333;
+      font-weight: 500;
+      flex: 1;
+      min-width: 100px;
+    }
+
+    /* Download Button Style Adjustment */
+    .option-btn {
+      min-width: 120px;
+      max-width: 140px;
+      text-align: center;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+    }
+
+    .feature-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(180deg, #F7FAFD 0%, #F7F9FC 100%);
+      border-radius: 16px;
+      padding: 48px;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 540px;
+      gap: 80px;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .feature-card.reverse {
+      flex-direction: row-reverse;
+    }
+
+    /* Core Modification: Title and Description Container Fixed 400px Width */
+    .feature-text {
+      flex: none; /* Disable flex shrink, fixed width */
+      width: 400px; /* Fixed width 400px */
+      padding: 0;
+    }
+
+    .feature-text h2 {
+      font-size: 36px;
+      font-weight: normal;
+      margin-bottom: 16px;
+      color: #1a1a1a;
+    }
+
+    .feature-text p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 24px;
+      line-height: 1.8;
+      /* Automatic line wrapping, no line limit */
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    /* Image Container - Separate Background */
+    .feature-img-wrapper {
+      flex: none;
+      width: 570px;
+      height: 400px;
+      background-color: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Image Fixed Size */
+    .feature-screenshot {
+      width: 480px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    /* Bottom CTA */
+    .cta {
+      padding: 0 0 80px 0;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 28px;
+      margin-bottom: 32px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      border-top: 1px solid #e8e8e8;
+    }
+    
+    /* Footer Links Style */
+    .footer-links {
+      margin-bottom: 20px;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 12px;
+      font-size: 12px;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: #4683f4;
+    }
+    
+    /* Right Side Functional Buttons Style */
+    .side-tools {
+      position: fixed;
+      right: 250px;
+      bottom: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 99;
+    }
+    
+    /* Mobile Adaptation */
+    @media (max-width: 1200px) {
+      .side-tools {
+        right: 30px;
+        bottom: 30px;
+      }
+    }
+    
+    /* Right Side Functional Buttons */
+    .side-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-color: #4683f4;
+      border: none;
+      box-shadow: 0 2px 12px rgba(70, 131, 244, 0.3);
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      text-align: center;
+    }
+    
+    .side-btn:hover {
+      background-color: #3366cc;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(51, 102, 204, 0.4);
+    }
+    
+    .side-btn.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    /* Language Switch Button Style */
+    .lang-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    
+    .lang-top, .lang-bottom {
+      position: relative;
+      font-size: 12px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      padding: 3px 0;
+      z-index: 1;
+    }
+    
+    /* Add Top and Bottom Dividers for Language Switch Button */
+    .side-btn#language-switch::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.5);
+      z-index: 0;
+    }
+    
+    /* Adjust Language Switch Button Height and Positioning */
+    .side-btn#language-switch {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative; /* Ensure pseudo-elements can be positioned correctly */
+      overflow: visible; /* Ensure pseudo-elements can be displayed */
+    }
+    
+    /* Add Top and Bottom Dividers for Language Switch Button */
+    .side-btn#language-switch::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      width: 80%;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.8); /* Increase transparency to make the divider more visible */
+      z-index: 2; /* Increase layer to ensure the divider is displayed above the text */
+    }
+
+    /* Responsive Adaptation - Mobile Optimization */
+    @media (max-width: 1200px) {
+      .feature-card {
+        height: auto;
+        min-height: 540px;
+        padding: 32px 20px;
+        gap: 40px;
+        flex-wrap: wrap; /* Allow wrapping */
+        justify-content: center;
+      }
+      
+      .feature-text {
+        width: 100%; /* Medium screen width 100% */
+        max-width: 400px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      
+      .feature-img-wrapper {
+        width: 80%;
+        max-width: 570px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+      }
+      
+      .feature-card, .feature-card.reverse {
+        flex-direction: column;
+        text-align: center;
+        padding: 24px 16px;
+        gap: 32px;
+      }
+
+      .feature-text {
+        width: 100%; /* Mobile width 100% */
+        max-width: 400px;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .feature-img-wrapper {
+        width: 100%;
+        height: 300px;
+        padding: 20px;
+      }
+
+      .feature-screenshot {
+        width: 100%;
+        height: auto;
+        max-height: 260px;
+      }
+
+      .feature-text h2 {
+        font-size: 28px;
+        font-weight: normal;
+      }
+
+      .feature-text p {
+        font-size: 16px;
+      }
+
+      .hero-screenshot {
+        width: 100%;
+        height: auto;
+        min-height: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .feature-img-wrapper {
+        height: 250px;
+      }
+      
+      header h1 {
+        font-size: 24px;
+      }
+      
+      .download-buttons {
+        flex-direction: column;
+        width: 80%;
+        margin: 0 auto 40px;
+      }
+      
+      .btn {
+        display: block;
+        width: 100%;
+      }
+    }
+  </style>
+  <!-- Add before existing script tags -->
+
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-container">
+      <a href="/en/" class="nav-logo">
+        <img src="../images/logo.png" alt="v2rayN" class="nav-logo-img">
+      </a>
+      <div class="nav-menu">
+        <!-- <a href="#">Home</a> -->
+        <!-- <a href="#">Features</a> -->
+        <!-- <a href="#">Help Center</a> -->
+      </div>
+      <div class="nav-actions">
+        <a href="#download-section" class="btn btn-blue">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Header Section - Logo Removed -->
+    <header>
+      <h1>v2rayN - Free Network Tool</h1>
+      <div class="download-buttons">
+        <a href="/en/v2rayN-windows" class="btn btn-outline" data-platform="windows" data-title="v2rayN Windows Download | Free Network Tool" data-description="v2rayN Windows is the Windows platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-windows"></i> Windows
+        </a>
+        <a href="/en/v2rayN-macos" class="btn btn-outline" data-platform="macos" data-title="v2rayN macOS Download | Free Network Tool" data-description="v2rayN macOS is the macOS platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-apple"></i> macOS
+        </a>
+        <a href="/en/v2rayN-linux" class="btn btn-outline" data-platform="linux" data-title="v2rayN Linux Download | Free Network Tool" data-description="v2rayN Linux is the Linux platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-linux"></i> Linux
+        </a>
+        <a href="/en/v2rayN-android" class="btn btn-outline" data-platform="android" data-title="v2rayN Android Download | Free Network Tool" data-description="v2rayN Android is the Android platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-android"></i> Android
+        </a>
+        <a href="https://all.calipertools.com" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-tools"></i> All Tools
+        </a>
+      </div>
+      <!-- Latest  Notice -->
+      <div style="display: flex; justify-content: center; align-items: center; margin: 5px auto 20px;">
+        <i class="fas fa-check-circle" style="color: #4CAF50; margin-right: 8px;"></i>
+        <span style="color: #666;">Current tool is the latest </span>
+      </div>
+      <!-- Main Banner Video - Bilibili Embed -->
+      <div class="hero-screenshot video-container">
+        <!-- Bilibili Player -->
+        <iframe id="bilibili-player" src="//player.bilibili.com/player.html?isOutside=true&aid=116012687103788&bvid=BV1cTFFzUEpL&cid=35820996660&p=1&autoplay=0&loop=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width: 100%; height: 100%; min-height: 300px;"></iframe>
+      </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+      <!-- Network Proxy Feature -->
+      <div class="feature-card">
+        <div class="feature-text">
+          <h2>Network Proxy Feature</h2>
+          <p>v2rayN provides powerful network proxy functionality, supporting multiple proxy protocols, helping you securely and stably access the internet and solve network restriction issues.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/1.png" alt="Network Proxy Feature" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- Multi-protocol Support -->
+      <div class="feature-card reverse">
+        <div class="feature-text">
+          <h2>Multi-protocol Support</h2>
+          <p>v2rayN supports multiple network protocols, including VMess, VLESS, Trojan, Shadowsocks, etc., allowing you to choose the most suitable protocol configuration according to different network environments.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/2.png" alt="Multi-protocol Support" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- Node Management -->
+      <div class="feature-card">
+        <div class="feature-text">
+          <h2>Node Management</h2>
+          <p>v2rayN provides an intuitive node management interface, supporting adding, deleting, and grouping nodes, and can automatically update nodes through subscription links, making it convenient and fast.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/3.png" alt="Node Management" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- Cross-platform Support -->
+      <div class="feature-card reverse">
+        <div class="feature-text">
+          <h2>Cross-platform Support</h2>
+          <p>v2rayN supports multiple platforms including Windows, macOS, Linux, and Android, allowing you to use the same configuration on different devices and maintain a consistent user experience.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/4.png" alt="Cross-platform Support" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- Traffic Statistics -->
+      <div class="feature-card">
+        <div class="feature-text">
+          <h2>Traffic Statistics</h2>
+          <p>v2rayN provides detailed traffic statistics functionality, allowing you to view real-time and historical traffic usage, helping you understand network usage status and plan network resources reasonably.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/5.png" alt="Traffic Statistics" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- System Proxy -->
+      <div class="feature-card reverse">
+        <div class="feature-text">
+          <h2>System Proxy</h2>
+          <p>v2rayN supports setting system global proxy, which can automatically take over system network traffic, and can also set proxy rules for specific applications according to needs, flexibly controlling the proxy range.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/6.png" alt="System Proxy" class="feature-screenshot">
+        </div>
+      </div>
+
+      <!-- Free and Open Source -->
+      <div class="feature-card">
+        <div class="feature-text">
+          <h2>Free and Open Source</h2>
+          <p>v2rayN is a completely free and open source software with no feature restrictions, with active community support and continuous development updates, ensuring software stability and security.</p>
+        </div>
+        <div class="feature-img-wrapper">
+          <img src="../images/img/7.png" alt="Free and Open Source" class="feature-screenshot">
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="cta" id="download-section">
+      <h2>Start using v2rayN to improve your network experience!</h2>
+      <div class="download-buttons">
+        <a href="/en/v2rayN-windows" class="btn btn-outline" data-platform="windows" data-title="v2rayN Windows Download | Free Network Tool" data-description="v2rayN Windows is the Windows platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-windows"></i> Windows
+        </a>
+        <a href="/en/v2rayN-macos" class="btn btn-outline" data-platform="macos" data-title="v2rayN macOS Download | Free Network Tool" data-description="v2rayN macOS is the macOS platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-apple"></i> macOS
+        </a>
+        <a href="/en/v2rayN-linux" class="btn btn-outline" data-platform="linux" data-title="v2rayN Linux Download | Free Network Tool" data-description="v2rayN Linux is the Linux platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-linux"></i> Linux
+        </a>
+        <a href="/en/v2rayN-android" class="btn btn-outline" data-platform="android" data-title="v2rayN Android Download | Free Network Tool" data-description="v2rayN Android is the Android platform version of v2rayN, used for network proxy, scientific internet access, and more.">
+          <i class="fab fa-android"></i> Android
+        </a>
+        <a href="https://all.calipertools.com" class="btn btn-outline" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-tools"></i> All Tools
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-links">
+        <a href="https://www.calipertools.com/">CaliperTools</a>
+        <a href="https://emoji.calipertools.com/">Emoji</a>
+        <a href="https://IndexTTS.calipertools.com/">IndexTTS</a>
+        <a href="https://VoxCPM.calipertools.com/">VoxCPM</a>
+        <a href="https://CosyVoice.calipertools.com/">CosyVoice</a>
+      </div>
+      <p>© 2025 CaliperTools. All rights reserved. Precision tools for everyone.</p>
+    </footer>
+  </div>
+
+  <!-- Download Selection Modal -->
+      <div id="download-modal" class="modal">
+        <div class="modal-content">
+          <!-- Close Button -->
+          <span class="close-btn" id="close-modal">&times;</span>
+          <!-- Title -->
+          <h3>Choose Download Method</h3>
+          <!-- Cloud Storage Options (Dynamically Generated) -->
+          <div class="download-options" id="download-options">
+            <!-- Dynamically generated cloud storage options will appear here -->
+          </div>
+        </div>
+      </div>
+
+  <!-- Right Side Functional Buttons -->
+  <div class="side-tools">
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="side-btn" title="Back to Top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+    
+    <!-- Language Switch Button -->
+    <button id="language-switch" class="side-btn" title="Switch Language" data-lang="en">
+      <div class="lang-container">
+        <span class="lang-top" style="color: white;">EN</span>
+        <span class="lang-bottom" style="color: white;">中文</span>
+      </div>
+    </button>
+  </div>
+
+  <script>
+    // Add smooth scrolling effect
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Add image lazy loading
+    if ('loading' in HTMLImageElement.prototype) {
+      document.querySelectorAll('img').forEach(img => {
+        img.loading = 'lazy';
+      });
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+      document.body.appendChild(script);
+    }
+
+    // Device detection - Adjust download buttons display based on device type
+    document.addEventListener('DOMContentLoaded', function() {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const windowsBtn = document.querySelector('.cta .btn-blue');
+      const macBtn = document.querySelector('.cta .btn-outline');
+      
+      // Keep both buttons visible, users can choose freely
+      // Other logic can be added here, such as highlighting the button for the corresponding device
+    });
+    
+    // Back to top functionality
+    const backToTopBtn = document.getElementById('back-to-top');
+    const langSwitchBtn = document.getElementById('language-switch');
+    
+    // Initialization: Language switch button always visible
+    langSwitchBtn.classList.add('show');
+    
+    // Listen for scroll event, show/hide back to top button
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+    
+    // Click to go back to top
+    backToTopBtn.addEventListener('click', function() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Language switch functionality - Single button click to switch
+    langSwitchBtn.addEventListener('click', function() {
+      const currentLang = this.getAttribute('data-lang');
+      
+      if (currentLang === 'en') {
+        // Switch from English to Chinese, jump to root directory
+        window.location.href = '/';
+      } else {
+        // Switch from Chinese to English, jump to en folder
+        window.location.href = '/en/';
+      }
+    });
+    
+    // Video player reference
+    const bilibiliPlayer = document.getElementById('bilibili-player');
+    
+    // Download modal logic
+    const downloadModal = document.getElementById('download-modal');
+    const closeModal = document.getElementById('close-modal');
+    
+    // Feature mapping table - Data for each feature
+    const featureData = {
+      'v2rayN-windows': {
+        platform: 'windows',
+        title: 'v2rayN Windows Download | Free Network Tool',
+        description: 'v2rayN Windows is the Windows platform version of v2rayN, used for network proxy, scientific internet access, and more.',
+        links: {
+          'TeraBox': 'https://1024terabox.com/s/1po7tEw3T14QcxyKjfHLbHw',
+        }
+      },
+      'v2rayN-macos': {
+        platform: 'macos',
+        title: 'v2rayN macOS Download | Free Network Tool',
+        description: 'v2rayN macOS is the macOS platform version of v2rayN, used for network proxy, scientific internet access, and more.',
+        links: {
+          'TeraBox': 'https://1024terabox.com/s/1NQI2wg6yxcCVkVW3C9R8Kg',
+        }
+      },
+      'v2rayN-linux': {
+        platform: 'linux',
+        title: 'v2rayN Linux Download | Free Network Tool',
+        description: 'v2rayN Linux is the Linux platform version of v2rayN, used for network proxy, scientific internet access, and more.',
+        links: {
+          'TeraBox': 'https://1024terabox.com/s/1LrBvt4UWNIes_VvzSLtnrA',
+        }
+      },
+      'v2rayN-android': {
+        platform: 'android',
+        title: 'v2rayN Android Download | Free Network Tool',
+        description: 'v2rayN Android is the Android platform version of v2rayN, used for network proxy, scientific internet access, and more.',
+        links: {
+          'TeraBox': 'https://1024terabox.com/s/1GOysHw_GG_NqvkNzoxikfQ',
+        }
+      }
+    };
+    
+    // Get current feature from URL
+    function getCurrentFeature() {
+      const path = window.location.pathname.replace(/\/$/, '');
+      const slug = path.split('/').pop();
+      return featureData[slug];
+    }
+    
+    // Get all download buttons and options container
+    const downloadButtons = document.querySelectorAll('.download-buttons .btn');
+    const downloadOptionsContainer = document.getElementById('download-options');
+    
+    // Dynamically generate download options
+    function generateDownloadOptions(feature) {
+      // Clear container
+      downloadOptionsContainer.innerHTML = '';
+      
+      // Get download links for this feature
+      const links = feature.links;
+      
+      // Iterate through links, generate options
+      for (const [name, url] of Object.entries(links)) {
+        const optionItem = document.createElement('div');
+        optionItem.className = 'option-item';
+        
+        // Get display name based on platform
+        const platformName = {
+          'windows-64': 'Windows 64-bit',
+          'windows-32': 'Windows 32-bit',
+          'windows-portable': 'Windows 64-bit Portable'
+        }[feature.platform];
+        
+        // Use original link, no platform information added
+        optionItem.innerHTML = `
+          <span class="option-name">${name}</span>
+          <a href="${url}" class="btn btn-blue option-btn" target="_blank" rel="noopener noreferrer nofollow">Download Now</a>
+        `;
+        
+        downloadOptionsContainer.appendChild(optionItem);
+      }
+    }
+    
+    // Update page title and description
+    function updatePageInfo(feature) {
+      // Update page title
+      if (feature.title) {
+        document.title = feature.title;
+      }
+      
+      // Update meta description
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription && feature.description) {
+        metaDescription.content = feature.description;
+      }
+    }
+    
+    // Initialize page, display content based on URL
+    function initPage() {
+      const feature = getCurrentFeature();
+      if (feature) {
+        // Update page title and description
+        updatePageInfo(feature);
+        
+        // Highlight corresponding download button
+        const button = document.querySelector(`.download-buttons .btn[data-platform="${feature.platform}"]`);
+        if (button) {
+          // 1. First restore all buttons to btn-outline style
+          downloadButtons.forEach(btn => {
+            btn.classList.remove('btn-blue');
+            btn.classList.add('btn-outline');
+          });
+          
+          // 2. Set current button to btn-blue style
+          button.classList.remove('btn-outline');
+          button.classList.add('btn-blue');
+          
+          // Calculate link count
+          const linkCount = Object.keys(feature.links).length;
+          
+          if (linkCount === 1) {
+            // Only one link, don't open automatically, let user click manually
+          } else {
+            // Multiple links, generate options and show modal
+            generateDownloadOptions(feature);
+            downloadModal.style.display = 'block';
+          }
+        }
+      }
+    }
+    
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', initPage);
+    
+    // Add click event for each download button
+    downloadButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        // Check if it's the "All Tools" button, if so don't prevent default behavior
+        if (this.getAttribute('href') === 'https://all.calipertools.com') {
+          return; // Return directly, don't prevent default behavior
+        }
+        
+        // Prevent default behavior, prevent page jump
+        e.preventDefault();
+        
+        // Get current platform
+        const platform = this.getAttribute('data-platform');
+        
+        // Find corresponding feature data
+        const slug = `v2rayN-${platform}`;
+        const feature = featureData[slug];
+        
+        if (feature) {
+          // Update page URL without refreshing
+          const newUrl = `/en/${slug}`;
+          history.pushState({ slug }, feature.title, newUrl);
+          
+          // Update page title and description
+          updatePageInfo(feature);
+          
+          // Highlight corresponding download button
+          downloadButtons.forEach(btn => {
+            btn.classList.remove('btn-blue');
+            btn.classList.add('btn-outline');
+          });
+          this.classList.remove('btn-outline');
+          this.classList.add('btn-blue');
+          
+          // Calculate link count
+          const linkCount = Object.keys(feature.links).length;
+          
+          if (linkCount === 1) {
+            // Only one link, open in new window
+            const firstLink = Object.values(feature.links)[0];
+            
+            // Open link in new window
+            window.open(firstLink, '_blank', 'noopener,noreferrer');
+          } else {
+            // Multiple links, generate options and show modal
+            generateDownloadOptions(feature);
+            downloadModal.style.display = 'block';
+          }
+        }
+      });
+    });
+    
+    // Add popstate event listener, handle browser forward/back
+    window.addEventListener('popstate', function(e) {
+      // Reinitialize page, display content based on new URL
+      initPage();
+    });
+    
+    // Close modal
+    function closeDownloadModal() {
+      downloadModal.style.display = 'none';
+    }
+    
+    // Click close button
+    closeModal.addEventListener('click', closeDownloadModal);
+    
+    // Click outside modal
+    window.addEventListener('click', function(e) {
+      if (e.target === downloadModal) {
+        closeDownloadModal();
+      }
+    });
+  </script>
+</body>
+</html>
